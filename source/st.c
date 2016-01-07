@@ -12,6 +12,9 @@
 #include "memory.h"
 #include "names.h"
 
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+
 int initial = 0;		/* not making initial image */
 
 extern int objectCount();
@@ -21,7 +24,7 @@ int main(int argc, char **argv)
 {
     FILE *fp;
     object firstProcess;
-    char *p, buffer[120];
+    char *p, buffer[500];
 
     initMemoryManager();
 
@@ -32,10 +35,9 @@ int main(int argc, char **argv)
 	p = argv[1];
 
     fp = fopen(p, "r");
-
     if (fp == NULL) {
-        strcpy(buffer, getenv("PREFIX"));
-	strcat(buffer, "/lib/yalsf/systemImage");
+       strcpy(buffer, TOSTRING(PREFIX));
+       strcat(buffer, "/lib/yalsf/systemImage");
 	fp = fopen(p, "r");
 	if (fp == NULL) {
 		sysError("cannot open image", p);
